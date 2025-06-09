@@ -1,8 +1,8 @@
 import express from "express";
-import sql from "./db/sql.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import userRouter from "./routes/users.js";
+import chatRouter from "./routes/chats.js";
 
 const PORT = process.env.PORT || 3001;
 
@@ -13,10 +13,10 @@ app.use(
     origin: "*",
   })
 );
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use("/api/users", userRouter);
+app.use("/api/chats", chatRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "Welcome to Areisis Backend" });
